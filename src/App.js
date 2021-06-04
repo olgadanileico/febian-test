@@ -1,7 +1,11 @@
-import React, { useEffect} from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import './App.css';
+import { SearchForm} from './components/SearchForm';
+import {SearchResults} from './components/SearchResults';
 import { useHistory } from 'react-router-dom';
+import debounce from 'lodash.debounce';
+
 //import firebase from './Firebase';
 
 
@@ -34,43 +38,21 @@ const Subtitle = styled.h2`
   text-align: center;
   letter-spacing:0.05em;
 `
-const SearchInput = styled.input`
-  border: 1px solid  #f2f2f2;;
-  border-radius: 10px;
-  height: 30px;
-  width: 100%;
-  padding: 2px 23px 2px 30px;
-  outline: 0;
-  background-color: #f5f5f5;
-
-`
-const Form = styled.form`
-  max-width: 500px;
-  width: 100%;
-  margin: 50px auto;
-`
-
-const Ul = styled.ul`
-  list-style: none;
-  padding: 0 0 0 30px;
-  color: white;
-  margin-top: 50px;
-`
 
 function App() {
   const history = useHistory();
  // const [data, setDataList] = React.useState([]);
-  const [searchQuery, setSearchQuery] = React.useState(history.location.pathname.substring(1));
   const [searchResults, setSearchResults] = React.useState([]);
-  const handleChange = e => {
-    setSearchQuery(e.target.value);
-  };
+  const [searchQuery, setSearchQuery] = React.useState(history.location.pathname.substring(1));
+	const debouncedSave = React.useRef(debounce(nextValue => setSearchResults(nextValue), 1000))
+		.current;
 
-  useEffect(()=> {
-    const results = DATASET.filter(item => item.toLowerCase().includes(searchQuery));
-    setSearchResults(results);
-  }, [searchQuery]);
- 
+  React.useEffect(()=> {
+      const results = DATASET.filter(item => item.toLowerCase().includes(searchQuery.toLowerCase()));
+      setSearchResults(results);
+      debouncedSave(results);
+    }, [searchQuery, debouncedSave]);
+
  /* useEffect(() => {
     const dataRef = firebase.database().ref('febian-test-default-rtdb');
     dataRef.on('value', (snapshot) => {
@@ -83,10 +65,7 @@ function App() {
     });
   }, []);
 */
-  const handleSubmit = (e) => {
-      e.preventDefault();
-      history.push(`/${searchQuery}`);
-    };
+
   return (
 
     <Wrapper>
@@ -94,19 +73,9 @@ function App() {
       <Title>Febian test task</Title>
       <Subtitle>Basic search by Olga Danileico</Subtitle>
     
-      <Form onSubmit={handleSubmit}>
-      <SearchInput 
-        type="text" 
-        value={searchQuery}
-        onChange={handleChange}
-        placeholder="Search for ... and press enter"
-      />
-      <Ul>{searchResults.map(item=>(
-        <li key={item}>{item}</li>
-        ))}
-      </Ul>
-      </Form>
-      
+      <SearchForm searchQuery={searchQuery} setSearchQuery={setSearchQuery} history={history}/>
+      <SearchResults searchResults={searchResults} />
+     
   </Wrapper>
   );
 }
