@@ -11,11 +11,11 @@ const DATASET = ['Aayla Secura', 'Adi Gallia', 'Admiral Dodd Rancit', 'Admiral F
 
 
 const Wrapper = styled.div`
-background-color: #000000;
-background-image: linear-gradient(147deg, #000000 0%, #04619f 74%);
-height: 100%;
-min-height: 100vh;
-margin: 0;
+  background-color: #000000;
+  background-image: linear-gradient(147deg, #000000 0%, #04619f 74%);
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
 `
 
 
@@ -35,25 +35,26 @@ const Subtitle = styled.h2`
   letter-spacing:0.05em;
 `
 const SearchInput = styled.input`
-    border: 1px solid  #f2f2f2;;
-    border-radius: 10px;
-    height: 30px;
-    width: 100%;
-    padding: 2px 23px 2px 30px;
-    outline: 0;
-    background-color: #f5f5f5;
+  border: 1px solid  #f2f2f2;;
+  border-radius: 10px;
+  height: 30px;
+  width: 100%;
+  padding: 2px 23px 2px 30px;
+  outline: 0;
+  background-color: #f5f5f5;
 
 `
 const Form = styled.form`
-max-width: 500px;
-width: 100%;
-margin: 50px auto;`
+  max-width: 500px;
+  width: 100%;
+  margin: 50px auto;
+`
 
 const Ul = styled.ul`
-list-style: none;
-padding: 0 0 0 30px;
-color: white;
-margin-top: 50px;
+  list-style: none;
+  padding: 0 0 0 30px;
+  color: white;
+  margin-top: 50px;
 `
 
 function App() {
@@ -90,21 +91,21 @@ function App() {
 
     <Wrapper>
  
-        <Title>Febian test task</Title>
-        <Subtitle>Basic search by Olga Danileico</Subtitle>
-     
-        <Form onSubmit={handleSubmit}>
-        <SearchInput 
-          type="text" 
-          value={searchQuery}
-          onChange={handleChange}
-          placeholder="Search for ... and press enter"
-        />
-        <Ul>{searchResults.map(item=>(
-          <li key={item}>{item}</li>
-          ))}
-        </Ul>
-        </Form>
+      <Title>Febian test task</Title>
+      <Subtitle>Basic search by Olga Danileico</Subtitle>
+    
+      <Form onSubmit={handleSubmit}>
+      <SearchInput 
+        type="text" 
+        value={searchQuery}
+        onChange={handleChange}
+        placeholder="Search for ... and press enter"
+      />
+      <Ul>{searchResults.map(item=>(
+        <li key={item}>{item}</li>
+        ))}
+      </Ul>
+      </Form>
       
   </Wrapper>
   );
